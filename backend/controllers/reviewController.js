@@ -1,5 +1,6 @@
 import Review from "../models/Review.js";
 import Company from "../models/Company.js";
+import calculateCompanyRating from "../helper/calculateCompanyRating.js";
 
 // ADD REVIEW
 export const addReview = async (req, res) => {
@@ -98,7 +99,7 @@ export const addReview = async (req, res) => {
 
     // RECALCULATE COMPANY RATING
     console.log(`[${new Date().toISOString()}] [${requestId}] ADD REVIEW - Recalculating company average rating`);
-    
+    await calculateCompanyRating(companyId);
     const reviews = await Review.find({
       company: companyId,
     });

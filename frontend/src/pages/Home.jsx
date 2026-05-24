@@ -6,6 +6,8 @@ import CompanyCard from "../components/CompanyCard";
 
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
+import { FaPlus } from "react-icons/fa6";
+import { IoLocationOutline } from "react-icons/io5";
 
 
 const Home = () => {
@@ -68,54 +70,108 @@ const Home = () => {
     <div className="p-10 bg-gray-100 min-h-screen">
 
       {/* FILTERS */}
-      <div className="grid md:grid-cols-3 gap-4 mb-8">
+      <div className="w-full max-w-5xl mx-auto mb-12">
 
-        {/* Search */}
-        {/* <input
-          type="text"
-          placeholder="Search company..."
-          value={search}
-          onChange={(e) =>
-            setSearch(e.target.value)
-          }
-          className="p-3 rounded border bg-white"
-        /> */}
+        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
 
-        <input
-          type="text"
-          placeholder="Filter by city..."
-          value={city}
-          onChange={(e) =>
-            setCity(e.target.value)
-          }
-          className="p-3 rounded border bg-white"
-        />
+          {/* LEFT SECTION */}
+          <div className="flex flex-col sm:flex-row gap-4 flex-1">
 
-        <Link to="/add-company" className="bg-blue-500 text-white p-3 rounded hover:bg-blue-600">
-          + add Company
-        </Link>
+            {/* CITY INPUT */}
+            <div className="flex-1">
 
-        <select
-          value={sort}
-          onChange={(e) =>
-            setSort(e.target.value)
-          }
-          className="p-3 rounded border bg-white"
-        >
+              <p className="text-gray-600 mb-2 text-sm font-medium">
+                Select City
+              </p>
 
-          <option value="">
-            Latest
-          </option>
 
-          <option value="name">
-            Name
-          </option>
 
-          <option value="rating">
-            Highest Rating
-          </option>
+              <div className="flex items-center bg-white border rounded-lg overflow-hidden px-4">
 
-        </select>
+                <input
+                  type="text"
+                  placeholder="Filter by city..."
+                  value={city}
+                  onChange={(e) =>
+                    setCity(e.target.value)
+                  }
+                  className="flex-1 py-3 outline-none bg-transparent"
+                />
+
+
+
+                <IoLocationOutline className="text-2xl text-purple-600" />
+
+              </div>
+
+            </div>
+
+
+
+            {/* FIND BUTTON */}
+            <button
+              className="primary-gradient text-white px-8 py-3 rounded-lg font-medium h-fit self-end"
+            >
+              Find Company
+            </button>
+
+          </div>
+
+
+
+          {/* RIGHT SECTION */}
+          <div className="flex items-end gap-4">
+
+            {/* ADD COMPANY */}
+            <Link
+              to="/add-company"
+              className="primary-gradient text-white px-6 py-3 rounded-lg font-medium flex items-center gap-2 whitespace-nowrap"
+            >
+
+              <FaPlus className="text-sm" />
+
+              Add Company
+
+            </Link>
+
+
+
+            {/* SORT */}
+            <div>
+
+              <p className="text-gray-600 mb-2 text-sm font-medium">
+                Sort:
+              </p>
+
+
+
+              <select
+                value={sort}
+                onChange={(e) =>
+                  setSort(e.target.value)
+                }
+                className="bg-white border rounded-lg px-4 py-3 min-w-[170px]"
+              >
+
+                <option value="">
+                  Latest
+                </option>
+
+                <option value="name">
+                  Name
+                </option>
+
+                <option value="rating">
+                  Highest Rating
+                </option>
+
+              </select>
+
+            </div>
+
+          </div>
+
+        </div>
 
       </div>
 
@@ -141,7 +197,7 @@ const Home = () => {
 
 
       {/* COMPANY GRID */}
-      <div className="grid md:grid-cols-3 gap-6">
+      <div className="flex flex-col gap-6 w-full max-w-5xl mx-auto">
 
         {companies.map((company) => (
           <CompanyCard
