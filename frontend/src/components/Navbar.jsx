@@ -9,13 +9,28 @@ import { IoClose } from "react-icons/io5";
 
 import { useAuth } from "../context/AuthContext";
 
+import {
+  useDispatch,
+  useSelector,
+} from "react-redux";
+
+import {
+  setSearch,
+} from "../redux/slices/companySlice";
+
 const Navbar = () => {
   const { user, logout } = useAuth();
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-  const [searchQuery, setSearchQuery] = useState("");
+
+  const dispatch = useDispatch();
+
+  const { search } =
+    useSelector(
+      (state) => state.company
+    );
 
   // Handle scroll visibility
   useEffect(() => {
@@ -164,8 +179,10 @@ const Navbar = () => {
               <input
                 type="text"
                 placeholder="Search companies..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                value={search}
+                onChange={(e) => dispatch(
+                  setSearch(e.target.value)
+                )}
                 className="w-[280px] lg:w-[360px] px-4 py-2 pr-10 border border-gray-200 rounded-md outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-100 focus:bg-white transition-all duration-200 text-gray-700 placeholder-gray-400 text-sm bg-gray-50 hover:bg-white"
               />
               <button
@@ -283,8 +300,8 @@ const Navbar = () => {
                   <input
                     type="text"
                     placeholder="Search companies..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
+                    value={search}
+                    onChange={(e) => dispatch(setSearch(e.target.value))}
                     className="w-full px-4 py-2.5 pr-10 border border-gray-200 rounded-full outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-100 transition-all duration-200 bg-gray-50 text-sm"
                   />
                   <button
