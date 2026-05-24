@@ -200,7 +200,7 @@ const Navbar = () => {
                   animate={{ opacity: 1, x: 0 }}
                   className="font-medium text-gray-700 text-sm"
                 >
-                  👋 Hi, {user.name.split(" ")[0]}
+                  Hi, {user.name.split(" ")[0]}
                 </motion.p>
 
                 <motion.button

@@ -15,30 +15,15 @@ import { motion, AnimatePresence } from "framer-motion";
 import { FaStar, FaMapMarkerAlt, FaFileAlt, FaThumbsUp } from "react-icons/fa";
 import { HiLocationMarker } from "react-icons/hi";
 
-
 const CompanyDetails = () => {
 
   const { id } = useParams();
-
   const navigate = useNavigate();
-
   const { user } = useAuth();
-
-
-
-  const [company, setCompany] =
-    useState(null);
-
-  const [reviews, setReviews] =
-    useState([]);
-
-  const [loading, setLoading] =
-    useState(false);
-
-  const [sort, setSort] =
-    useState("latest");
-
-
+  const [company, setCompany] = useState(null);
+  const [reviews, setReviews] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [sort, setSort] = useState("latest");
 
   // review form
   const [formData, setFormData] =
