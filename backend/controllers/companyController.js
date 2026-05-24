@@ -1,5 +1,7 @@
 import Company from "../models/Company.js";
 
+import uploadImageToS3 from "../helper/uploadImage.js";
+
 // ADD COMPANY
 export const addCompany = async (req, res) => {
   const startTime = Date.now();

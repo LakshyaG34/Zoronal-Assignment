@@ -19,7 +19,7 @@ router.get("/:id", getSingleCompany);
 
 router.post(
   "/add-company",
-  upload.single("logo"),
+  upload.single("logo"), protect,
   addCompany
 );
 

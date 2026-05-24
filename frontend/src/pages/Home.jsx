@@ -5,7 +5,7 @@ import API from "../api/axios";
 import CompanyCard from "../components/CompanyCard";
 
 import toast from "react-hot-toast";
-
+import { Link } from "react-router-dom";
 
 
 const Home = () => {
@@ -46,7 +46,7 @@ const Home = () => {
 
       toast.error(
         error.response?.data?.message ||
-          "Failed to fetch companies"
+        "Failed to fetch companies"
       );
 
     } finally {
@@ -67,26 +67,11 @@ const Home = () => {
   return (
     <div className="p-10 bg-gray-100 min-h-screen">
 
-      {/* HEADER */}
-      <div className="mb-8">
-
-        <h1 className="text-4xl font-bold mb-2">
-          Company Reviews
-        </h1>
-
-        <p className="text-gray-600">
-          Discover and review companies
-        </p>
-
-      </div>
-
-
-
       {/* FILTERS */}
       <div className="grid md:grid-cols-3 gap-4 mb-8">
 
         {/* Search */}
-        <input
+        {/* <input
           type="text"
           placeholder="Search company..."
           value={search}
@@ -94,11 +79,8 @@ const Home = () => {
             setSearch(e.target.value)
           }
           className="p-3 rounded border bg-white"
-        />
+        /> */}
 
-
-
-        {/* City Filter */}
         <input
           type="text"
           placeholder="Filter by city..."
@@ -109,9 +91,10 @@ const Home = () => {
           className="p-3 rounded border bg-white"
         />
 
+        <Link to="/add-company" className="bg-blue-500 text-white p-3 rounded hover:bg-blue-600">
+          + add Company
+        </Link>
 
-
-        {/* Sort */}
         <select
           value={sort}
           onChange={(e) =>
