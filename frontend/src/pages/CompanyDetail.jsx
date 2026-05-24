@@ -14,6 +14,11 @@ import API from "../api/axios";
 
 import { useAuth } from "../context/AuthContext";
 
+import { motion, AnimatePresence } from "framer-motion";
+
+import { FaStar, FaMapMarkerAlt, FaFileAlt, FaThumbsUp } from "react-icons/fa";
+import { HiLocationMarker } from "react-icons/hi";
+
 
 
 const CompanyDetails = () => {
@@ -162,8 +167,6 @@ const CompanyDetails = () => {
   };
 
 
-
-
   // LIKE REVIEW
   const handleLike = async (
     reviewId
@@ -197,9 +200,13 @@ const CompanyDetails = () => {
 
   if (!company) {
     return (
-      <div className="p-10">
-        Loading...
-      </div>
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="min-h-screen bg-gray-100 p-10 flex items-center justify-center"
+      >
+        <div className="text-xl text-gray-600">Loading...</div>
+      </motion.div>
     );
   }
 
@@ -207,12 +214,22 @@ const CompanyDetails = () => {
 
 
   return (
-    <div className="min-h-screen bg-gray-100 p-10">
+    <motion.div 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.3 }}
+      className="min-h-screen bg-gray-100 p-10"
+    >
 
       {/* COMPANY INFO */}
-      <div className="bg-white rounded-xl p-8 shadow-sm mb-10">
+      <motion.div 
+        initial={{ y: -20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.3 }}
+        className="bg-white rounded-xl p-8 shadow-md border border-gray-200 mb-10"
+      >
 
-        <div className="flex items-center gap-6">
+        <div className="flex items-start gap-6 flex-wrap md:flex-nowrap">
 
           <img
             src={
@@ -220,33 +237,33 @@ const CompanyDetails = () => {
               "https://via.placeholder.com/120"
             }
             alt={company.name}
-            className="w-28 h-28 rounded-full object-cover"
+            className="w-28 h-28 rounded-full object-cover border-2 border-gray-200"
           />
 
 
 
-          <div>
+          <div className="flex-1">
 
-            <h1 className="text-4xl font-bold mb-2">
+            <h1 className="text-4xl font-bold mb-2 text-gray-800">
               {company.name}
             </h1>
 
-            <p className="text-gray-600 mb-2">
-              {company.city}
+            <p className="text-gray-600 mb-2 flex items-center gap-1">
+              <HiLocationMarker className="text-purple-600" /> {company.city}
             </p>
 
-            <p className="text-gray-500 mb-4">
+            <p className="text-gray-500 mb-4 leading-relaxed">
               {company.description}
             </p>
 
-            <div className="flex gap-4">
+            <div className="flex gap-6 items-center">
 
-              <p className="font-semibold">
-                ⭐ {company.averageRating}
+              <p className="font-semibold text-lg text-gray-800 flex items-center gap-1">
+                <FaStar className="text-yellow-500" /> {company.averageRating}
               </p>
 
-              <p className="text-gray-500">
-                {company.totalReviews} reviews
+              <p className="text-gray-500 flex items-center gap-1">
+                <FaFileAlt className="text-purple-600" /> {company.totalReviews} reviews
               </p>
 
             </div>
@@ -255,14 +272,19 @@ const CompanyDetails = () => {
 
         </div>
 
-      </div>
+      </motion.div>
 
 
 
       {/* ADD REVIEW */}
-      <div className="bg-white rounded-xl p-8 shadow-sm mb-10">
+      <motion.div 
+        initial={{ y: -20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.3, delay: 0.1 }}
+        className="bg-white rounded-xl p-8 shadow-md border border-gray-200 mb-10"
+      >
 
-        <h2 className="text-2xl font-bold mb-6">
+        <h2 className="text-2xl font-bold mb-6 text-gray-800 border-b-2 border-gray-200 pb-3">
           Add Review
         </h2>
 
@@ -270,7 +292,7 @@ const CompanyDetails = () => {
 
         <form
           onSubmit={handleSubmit}
-          className="space-y-4"
+          className="space-y-5"
         >
 
           <input
@@ -279,7 +301,8 @@ const CompanyDetails = () => {
             placeholder="Full Name"
             value={formData.fullName}
             onChange={handleChange}
-            className="w-full border p-3 rounded"
+            required
+            className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
           />
 
 
@@ -290,7 +313,8 @@ const CompanyDetails = () => {
             placeholder="Subject"
             value={formData.subject}
             onChange={handleChange}
-            className="w-full border p-3 rounded"
+            required
+            className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
           />
 
 
@@ -300,7 +324,8 @@ const CompanyDetails = () => {
             placeholder="Write your review..."
             value={formData.reviewText}
             onChange={handleChange}
-            className="w-full border p-3 rounded h-32"
+            required
+            className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all h-32 resize-y"
           />
 
 
@@ -309,50 +334,52 @@ const CompanyDetails = () => {
             name="rating"
             value={formData.rating}
             onChange={handleChange}
-            className="w-full border p-3 rounded"
+            className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all bg-white"
           >
 
             <option value="1">
-              1 Star
+              ⭐ 1 Star
             </option>
 
             <option value="2">
-              2 Stars
+              ⭐⭐ 2 Stars
             </option>
 
             <option value="3">
-              3 Stars
+              ⭐⭐⭐ 3 Stars
             </option>
 
             <option value="4">
-              4 Stars
+              ⭐⭐⭐⭐ 4 Stars
             </option>
 
             <option value="5">
-              5 Stars
+              ⭐⭐⭐⭐⭐ 5 Stars
             </option>
 
           </select>
 
 
 
-          <button
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
             type="submit"
-            className="bg-black text-white px-6 py-3 rounded"
+            className="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white px-6 py-3 rounded-lg font-medium transition-all shadow-md"
           >
             Submit Review
-          </button>
+          </motion.button>
 
         </form>
 
-      </div>
+      </motion.div>
 
 
 
       {/* REVIEW HEADER */}
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex justify-between items-center mb-6 flex-wrap gap-4">
 
-        <h2 className="text-3xl font-bold">
+        <h2 className="text-3xl font-bold text-gray-800">
           Reviews
         </h2>
 
@@ -363,11 +390,11 @@ const CompanyDetails = () => {
           onChange={(e) =>
             setSort(e.target.value)
           }
-          className="border p-3 rounded"
+          className="border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white min-w-[180px]"
         >
 
           <option value="latest">
-            Latest
+            Latest First
           </option>
 
           <option value="rating">
@@ -381,66 +408,110 @@ const CompanyDetails = () => {
 
 
       {/* LOADING */}
-      {loading && (
-        <div>Loading reviews...</div>
-      )}
+      <AnimatePresence>
+        {loading && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="text-center py-12"
+          >
+            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600"></div>
+            <p className="text-gray-600 mt-3">Loading reviews...</p>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
 
 
       {/* REVIEWS */}
-      <div className="space-y-6">
+      {!loading && (
+        <div className="space-y-5">
 
-        {reviews.map((review) => (
-          <div
-            key={review._id}
-            className="bg-white p-6 rounded-xl shadow-sm"
-          >
+          <AnimatePresence>
+            {reviews.map((review, index) => (
+              <motion.div
+                key={review._id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3, delay: index * 0.05 }}
+                whileHover={{ y: -2 }}
+                className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-all"
+              >
 
-            <div className="flex justify-between mb-3">
+                <div className="flex justify-between items-start mb-4 flex-wrap gap-3">
 
-              <div>
+                  <div className="flex-1">
 
-                <h3 className="font-bold text-lg">
-                  {review.fullName}
-                </h3>
+                    <h3 className="font-bold text-lg text-gray-800">
+                      {review.fullName}
+                    </h3>
 
-                <p className="text-gray-500">
-                  {review.subject}
+                    <p className="text-gray-500 text-sm mt-1">
+                      {review.subject}
+                    </p>
+
+                  </div>
+
+
+
+                  <div className="bg-purple-50 px-3 py-1 rounded-full">
+                    <p className="font-semibold text-purple-700 flex items-center gap-1">
+                      <FaStar className="text-yellow-500" /> {review.rating}
+                    </p>
+                  </div>
+
+                </div>
+
+
+
+                <p className="text-gray-700 mb-5 leading-relaxed">
+                  {review.reviewText}
                 </p>
 
-              </div>
 
 
+                <div className="flex items-center justify-between pt-3 border-t border-gray-100">
 
-              <p className="font-semibold">
-                ⭐ {review.rating}
-              </p>
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() =>
+                      handleLike(review._id)
+                    }
+                    className="flex items-center gap-2 text-sm bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-lg transition-colors"
+                  >
+                    <FaThumbsUp className="text-purple-600" /> Like
+                    <span className="font-semibold text-gray-700">
+                      ({review.likes})
+                    </span>
+                  </motion.button>
 
-            </div>
+                  <p className="text-xs text-gray-400">
+                    {new Date(review.createdAt).toLocaleDateString()}
+                  </p>
 
+                </div>
 
+              </motion.div>
+            ))}
+          </AnimatePresence>
 
-            <p className="text-gray-700 mb-4">
-              {review.reviewText}
-            </p>
-
-
-
-            <button
-              onClick={() =>
-                handleLike(review._id)
-              }
-              className="text-sm bg-gray-200 px-4 py-2 rounded"
+          {!loading && reviews.length === 0 && (
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="bg-white rounded-xl p-12 text-center border border-gray-200"
             >
-              👍 Like ({review.likes})
-            </button>
+              <p className="text-gray-500 text-lg">No reviews yet. Be the first to review!</p>
+            </motion.div>
+          )}
 
-          </div>
-        ))}
+        </div>
+      )}
 
-      </div>
-
-    </div>
+    </motion.div>
   );
 };
 
