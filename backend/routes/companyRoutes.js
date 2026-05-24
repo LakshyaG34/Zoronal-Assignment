@@ -6,18 +6,21 @@ import {
   getSingleCompany,
 } from "../controllers/companyController.js";
 
+import upload from "../middleware/multer.js";
+
 import protect from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-
-// PUBLIC
 router.get("/", getCompanies);
 
 router.get("/:id", getSingleCompany);
 
 
-// PROTECTED
-router.post("/", protect, addCompany);
+router.post(
+  "/add-company",
+  upload.single("logo"),
+  addCompany
+);
 
 export default router;

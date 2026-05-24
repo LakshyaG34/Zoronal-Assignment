@@ -14,7 +14,7 @@ export const addCompany = async (req, res) => {
       location,
       foundedOn,
       city,
-      logo,
+      // logo,
       description,
     } = req.body;
 
@@ -23,7 +23,7 @@ export const addCompany = async (req, res) => {
       location,
       foundedOn,
       city,
-      logo: logo ? `${logo.substring(0, 50)}...` : null,
+      // logo: logo ? `${logo.substring(0, 50)}...` : null,
       description: description ? `${description.substring(0, 100)}...` : null
     });
 
@@ -38,6 +38,12 @@ export const addCompany = async (req, res) => {
       return res.status(400).json({
         message: "Please fill all required fields",
       });
+    }
+
+    let logo = "";
+
+    if (req.file) {
+      logo = await uploadImageToS3(req.file);
     }
 
     // Check for duplicate company name
