@@ -9,16 +9,11 @@ import {
 } from "react-router-dom";
 
 import toast from "react-hot-toast";
-
 import API from "../api/axios";
-
 import { useAuth } from "../context/AuthContext";
-
 import { motion, AnimatePresence } from "framer-motion";
-
 import { FaStar, FaMapMarkerAlt, FaFileAlt, FaThumbsUp } from "react-icons/fa";
 import { HiLocationMarker } from "react-icons/hi";
-
 
 
 const CompanyDetails = () => {
@@ -160,7 +155,7 @@ const CompanyDetails = () => {
 
       toast.error(
         error.response?.data?.message ||
-          "Failed to add review"
+        "Failed to add review"
       );
 
     }
@@ -195,12 +190,9 @@ const CompanyDetails = () => {
     }
   };
 
-
-
-
   if (!company) {
     return (
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         className="min-h-screen bg-gray-100 p-10 flex items-center justify-center"
@@ -210,11 +202,8 @@ const CompanyDetails = () => {
     );
   }
 
-
-
-
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.3 }}
@@ -222,7 +211,7 @@ const CompanyDetails = () => {
     >
 
       {/* COMPANY INFO */}
-      <motion.div 
+      <motion.div
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.3 }}
@@ -240,44 +229,29 @@ const CompanyDetails = () => {
             className="w-28 h-28 rounded-full object-cover border-2 border-gray-200"
           />
 
-
-
           <div className="flex-1">
-
             <h1 className="text-4xl font-bold mb-2 text-gray-800">
               {company.name}
             </h1>
-
             <p className="text-gray-600 mb-2 flex items-center gap-1">
               <HiLocationMarker className="text-purple-600" /> {company.city}
             </p>
-
             <p className="text-gray-500 mb-4 leading-relaxed">
               {company.description}
             </p>
-
             <div className="flex gap-6 items-center">
-
               <p className="font-semibold text-lg text-gray-800 flex items-center gap-1">
                 <FaStar className="text-yellow-500" /> {company.averageRating}
               </p>
-
               <p className="text-gray-500 flex items-center gap-1">
                 <FaFileAlt className="text-purple-600" /> {company.totalReviews} reviews
               </p>
-
             </div>
-
           </div>
-
         </div>
-
       </motion.div>
 
-
-
-      {/* ADD REVIEW */}
-      <motion.div 
+      <motion.div
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.3, delay: 0.1 }}
@@ -287,8 +261,6 @@ const CompanyDetails = () => {
         <h2 className="text-2xl font-bold mb-6 text-gray-800 border-b-2 border-gray-200 pb-3">
           Add Review
         </h2>
-
-
 
         <form
           onSubmit={handleSubmit}
@@ -305,8 +277,6 @@ const CompanyDetails = () => {
             className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
           />
 
-
-
           <input
             type="text"
             name="subject"
@@ -317,8 +287,6 @@ const CompanyDetails = () => {
             className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
           />
 
-
-
           <textarea
             name="reviewText"
             placeholder="Write your review..."
@@ -327,8 +295,6 @@ const CompanyDetails = () => {
             required
             className="w-full border border-gray-300 p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all h-32 resize-y"
           />
-
-
 
           <select
             name="rating"
@@ -410,7 +376,7 @@ const CompanyDetails = () => {
       {/* LOADING */}
       <AnimatePresence>
         {loading && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -499,7 +465,7 @@ const CompanyDetails = () => {
           </AnimatePresence>
 
           {!loading && reviews.length === 0 && (
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               className="bg-white rounded-xl p-12 text-center border border-gray-200"

@@ -218,9 +218,7 @@ const Navbar = () => {
             )}
           </div>
 
-          {/* MOBILE HAMBURGER BUTTON */}
           <div className="md:hidden flex items-center gap-3">
-            {/* Mobile Search Toggle */}
             <motion.button
               whileTap={{ scale: 0.95 }}
               onClick={() => {
@@ -243,11 +241,9 @@ const Navbar = () => {
         </div>
       </motion.nav>
 
-      {/* MOBILE MENU MODAL */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <>
-            {/* Backdrop Overlay */}
             <motion.div
               variants={overlayVariants}
               initial="hidden"
@@ -258,7 +254,6 @@ const Navbar = () => {
               className="fixed inset-0 bg-black bg-opacity-50 z-50 md:hidden"
             />
 
-            {/* Mobile Menu Panel */}
             <motion.div
               variants={mobileMenuVariants}
               initial="hidden"
