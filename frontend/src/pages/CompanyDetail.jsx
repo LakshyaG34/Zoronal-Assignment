@@ -73,8 +73,6 @@ const CompanyDetails = () => {
   };
 
 
-
-
   // FETCH REVIEWS
   const fetchReviews = async () => {
     try {
