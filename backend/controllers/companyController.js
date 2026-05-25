@@ -1,15 +1,15 @@
 import Company from "../models/Company.js";
 
-import uploadImageToS3 from "../helper/uploadImage.js";
+import uploadToS3 from "../helper/uploadImage.js";
 
 // ADD COMPANY
 export const addCompany = async (req, res) => {
   const startTime = Date.now();
   const requestId = Math.random().toString(36).substring(7);
-  
+
   console.log(`[${new Date().toISOString()}] [${requestId}] ADD COMPANY - Request received`);
   console.log(`[${new Date().toISOString()}] [${requestId}] ADD COMPANY - User ID: ${req.user?._id}`);
-  
+
   try {
     const {
       name,
@@ -33,10 +33,10 @@ export const addCompany = async (req, res) => {
     if (!name || !location || !foundedOn || !city) {
       console.log(`[${new Date().toISOString()}] [${requestId}] ADD COMPANY - Validation failed: Missing required fields`);
       console.log(`[${new Date().toISOString()}] [${requestId}] ADD COMPANY - Field status - Name: ${!!name}, Location: ${!!location}, FoundedOn: ${!!foundedOn}, City: ${!!city}`);
-      
+
       const duration = Date.now() - startTime;
       console.log(`[${new Date().toISOString()}] [${requestId}] ADD COMPANY - Request failed - Missing fields (Duration: ${duration}ms)`);
-      
+
       return res.status(400).json({
         message: "Please fill all required fields",
       });
@@ -45,18 +45,21 @@ export const addCompany = async (req, res) => {
     let logo = "";
 
     if (req.file) {
-      logo = await uploadImageToS3(req.file);
+      logo = await uploadToS3(
+        req.file,
+        "company-logos"
+      );
     }
 
     // Check for duplicate company name
     console.log(`[${new Date().toISOString()}] [${requestId}] ADD COMPANY - Checking for existing company with name: ${name}`);
     const existingCompany = await Company.findOne({ name: { $regex: new RegExp(`^${name}$`, 'i') } });
-    
+
     if (existingCompany) {
       console.log(`[${new Date().toISOString()}] [${requestId}] ADD COMPANY - Company already exists with name: ${name} (ID: ${existingCompany._id})`);
       const duration = Date.now() - startTime;
       console.log(`[${new Date().toISOString()}] [${requestId}] ADD COMPANY - Request failed - Duplicate company (Duration: ${duration}ms)`);
-      
+
       return res.status(400).json({
         message: "Company with this name already exists",
       });
@@ -73,9 +76,9 @@ export const addCompany = async (req, res) => {
       description,
       createdBy: req.user._id,
     };
-    
+
     const company = await Company.create(companyData);
-    
+
     console.log(`[${new Date().toISOString()}] [${requestId}] ADD COMPANY - Company created successfully with ID: ${company._id}`);
     console.log(`[${new Date().toISOString()}] [${requestId}] ADD COMPANY - Company details:`, {
       id: company._id,
@@ -99,16 +102,16 @@ export const addCompany = async (req, res) => {
       keyPattern: error.keyPattern,
       keyValue: error.keyValue
     });
-    
+
     console.log(`[${new Date().toISOString()}] [${requestId}] ADD COMPANY - Request failed with error (Duration: ${duration}ms)`);
-    
+
     // Handle duplicate key error specifically
     if (error.code === 11000) {
       return res.status(400).json({
         message: "Company with this name already exists",
       });
     }
-    
+
     res.status(500).json({
       message: error.message,
     });
@@ -119,9 +122,9 @@ export const addCompany = async (req, res) => {
 export const getCompanies = async (req, res) => {
   const startTime = Date.now();
   const requestId = Math.random().toString(36).substring(7);
-  
+
   console.log(`[${new Date().toISOString()}] [${requestId}] GET COMPANIES - Request received`);
-  
+
   try {
     const search = req.query.search || "";
     const city = req.query.city || "";
@@ -175,7 +178,7 @@ export const getCompanies = async (req, res) => {
 
     // Execute queries
     console.log(`[${new Date().toISOString()}] [${requestId}] GET COMPANIES - Fetching companies from database`);
-    
+
     const [companies, totalCompanies] = await Promise.all([
       Company.find(query)
         .sort(sortOption)
@@ -186,9 +189,9 @@ export const getCompanies = async (req, res) => {
     ]);
 
     console.log(`[${new Date().toISOString()}] [${requestId}] GET COMPANIES - Found ${companies.length} companies (Total: ${totalCompanies})`);
-    
+
     if (companies.length > 0) {
-      console.log(`[${new Date().toISOString()}] [${requestId}] GET COMPANIES - Sample company IDs:`, 
+      console.log(`[${new Date().toISOString()}] [${requestId}] GET COMPANIES - Sample company IDs:`,
         companies.slice(0, 3).map(c => ({ id: c._id, name: c.name }))
       );
     }
@@ -210,9 +213,9 @@ export const getCompanies = async (req, res) => {
     const duration = Date.now() - startTime;
     console.error(`[${new Date().toISOString()}] [${requestId}] GET COMPANIES - Error occurred: ${error.message}`);
     console.error(`[${new Date().toISOString()}] [${requestId}] GET COMPANIES - Stack trace:`, error.stack);
-    
+
     console.log(`[${new Date().toISOString()}] [${requestId}] GET COMPANIES - Request failed with error (Duration: ${duration}ms)`);
-    
+
     res.status(500).json({
       message: error.message,
     });
@@ -224,23 +227,23 @@ export const getSingleCompany = async (req, res) => {
   const startTime = Date.now();
   const requestId = Math.random().toString(36).substring(7);
   const companyId = req.params.id;
-  
+
   console.log(`[${new Date().toISOString()}] [${requestId}] GET SINGLE COMPANY - Request received for company ID: ${companyId}`);
-  
+
   try {
     // Validate company ID format
     if (!companyId || companyId.length !== 24) {
       console.log(`[${new Date().toISOString()}] [${requestId}] GET SINGLE COMPANY - Invalid company ID format: ${companyId}`);
       const duration = Date.now() - startTime;
       console.log(`[${new Date().toISOString()}] [${requestId}] GET SINGLE COMPANY - Request failed - Invalid ID (Duration: ${duration}ms)`);
-      
+
       return res.status(400).json({
         message: "Invalid company ID format",
       });
     }
 
     console.log(`[${new Date().toISOString()}] [${requestId}] GET SINGLE COMPANY - Fetching company from database`);
-    
+
     const company = await Company.findById(companyId)
       .populate("createdBy", "name email");
 
@@ -248,7 +251,7 @@ export const getSingleCompany = async (req, res) => {
       console.log(`[${new Date().toISOString()}] [${requestId}] GET SINGLE COMPANY - Company not found with ID: ${companyId}`);
       const duration = Date.now() - startTime;
       console.log(`[${new Date().toISOString()}] [${requestId}] GET SINGLE COMPANY - Request failed - Company not found (Duration: ${duration}ms)`);
-      
+
       return res.status(404).json({
         message: "Company not found",
       });
@@ -271,7 +274,7 @@ export const getSingleCompany = async (req, res) => {
     const duration = Date.now() - startTime;
     console.error(`[${new Date().toISOString()}] [${requestId}] GET SINGLE COMPANY - Error occurred: ${error.message}`);
     console.error(`[${new Date().toISOString()}] [${requestId}] GET SINGLE COMPANY - Stack trace:`, error.stack);
-    
+
     // Handle CastError (invalid ObjectId)
     if (error.name === 'CastError') {
       console.log(`[${new Date().toISOString()}] [${requestId}] GET SINGLE COMPANY - CastError: Invalid company ID format`);
@@ -279,9 +282,9 @@ export const getSingleCompany = async (req, res) => {
         message: "Invalid company ID format",
       });
     }
-    
+
     console.log(`[${new Date().toISOString()}] [${requestId}] GET SINGLE COMPANY - Request failed with error (Duration: ${duration}ms)`);
-    
+
     res.status(500).json({
       message: error.message,
     });

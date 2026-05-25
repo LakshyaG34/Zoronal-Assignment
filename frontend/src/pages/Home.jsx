@@ -61,12 +61,13 @@ const Home = () => {
   }, [search, city, sort]);
 
   return (
-    <div className="p-10 bg-gray-100 min-h-screen">
+    <div className="p-4 sm:p-10 bg-gray-100 min-h-screen">
 
       {/* FILTER SECTION */}
       <div className="w-full max-w-5xl mx-auto mb-12">
 
-        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
+        {/* Desktop Layout - Hidden on mobile, visible on lg screens */}
+        <div className="hidden lg:flex lg:flex-row lg:items-end lg:justify-between gap-6">
 
           {/* LEFT SECTION */}
           <div className="flex flex-col sm:flex-row gap-4 flex-1 w-full max-w-lg items-center">
@@ -143,6 +144,84 @@ const Home = () => {
             </div>
           </div>
         </div>
+
+        {/* Mobile Layout - Visible only on mobile/tablet (below lg screens) */}
+        <div className="flex flex-col lg:hidden gap-6">
+          
+          {/* City Input and Find Button Row */}
+          <div className="flex flex-col sm:flex-row gap-4 w-full">
+            <div className="flex-1 w-full">
+              <p className="text-gray-600 mb-2 text-sm font-medium">
+                Select City
+              </p>
+              <div className="flex items-center bg-white rounded-lg overflow-hidden px-4 border border-gray-200">
+                <input
+                  type="text"
+                  placeholder="Filter by city..."
+                  value={city}
+                  onChange={(e) =>
+                    dispatch(
+                      setCity(
+                        e.target.value
+                      )
+                    )
+                  }
+                  className="w-full px-4 py-2 rounded-md outline-none transition-all duration-200 text-gray-700 text-sm"
+                />
+                <IoLocationOutline className="text-2xl text-purple-600 flex-shrink-0" />
+              </div>
+            </div>
+
+            <button
+              className="primary-gradient text-white px-6 py-2 rounded-md font-medium text-sm whitespace-nowrap w-full sm:w-auto sm:mt-7"
+            >
+              Find Company
+            </button>
+          </div>
+
+          {/* Add Company and Sort Row */}
+          <div className="flex flex-col sm:flex-row gap-4 w-full">
+            <Link
+              to="/add-company"
+              className="primary-gradient text-white px-6 py-2 rounded-md text-sm font-medium flex items-center justify-center gap-2 whitespace-nowrap w-full sm:w-auto"
+            >
+              <FaPlus className="text-sm" />
+              Add Company
+            </Link>
+
+            <div className="flex-1 w-full">
+              <p className="text-gray-600 mb-2 text-sm font-medium">
+                Sort:
+              </p>
+              <select
+                value={sort}
+                onChange={(e) =>
+                  dispatch(
+                    setSort(
+                      e.target.value
+                    )
+                  )
+                }
+                className="bg-white border border-gray-300 rounded-md px-4 py-2 w-full text-sm"
+              >
+                <option value="">
+                  Latest
+                </option>
+                <option value="name">
+                  Name
+                </option>
+                <option value="rating">
+                  Highest Rating
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* HORIZONTAL LINE */}
+      <div className="w-full max-w-6xl mx-auto">
+        <div className="border-t border-gray-300 my-12"></div>
       </div>
 
       {loading && (

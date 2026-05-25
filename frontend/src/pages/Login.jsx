@@ -1,126 +1,246 @@
 import { useState } from "react";
 
 import {
-    Link,
-    useNavigate,
+  Link,
+  useNavigate,
 } from "react-router-dom";
 
 import toast from "react-hot-toast";
 
 import API from "../api/axios";
-import { setUser } from "../utils/auth";
-import { useAuth } from "../context/AuthContext";
+
+import { useAuth }
+from "../context/AuthContext";
+
+import {
+  FiMail,
+  FiLock,
+} from "react-icons/fi";
+
+import { motion } from "framer-motion";
+
+
 
 const Login = () => {
 
-    const navigate = useNavigate();
-    const { login } = useAuth();
+  const navigate = useNavigate();
 
-    const [formData, setFormData] = useState({
-        email: "",
-        password: "",
+  const { login } = useAuth();
+
+
+
+  const [formData, setFormData] =
+    useState({
+      email: "",
+      password: "",
     });
 
-    const [loading, setLoading] =
-        useState(false);
+
+
+  const [loading, setLoading] =
+    useState(false);
 
 
 
-    const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value,
-        });
-    };
+
+  // HANDLE INPUTS
+  const handleChange = (e) => {
+
+    setFormData({
+      ...formData,
+      [e.target.name]:
+        e.target.value,
+    });
+
+  };
 
 
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+  // SUBMIT
+  const handleSubmit = async (e) => {
 
-        try {
-
-            setLoading(true);
-
-            const { data } = await API.post(
-                "/auth/login",
-                formData
-            );
-
-            login(data);
-
-            toast.success("Login Successful");
-
-            navigate("/");
-
-        } catch (error) {
-
-            toast.error(
-                error.response?.data?.message ||
-                "Something went wrong"
-            );
-
-        } finally {
-
-            setLoading(false);
-
-        }
-    };
+    e.preventDefault();
 
 
 
-    return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    try {
 
-            <form
-                onSubmit={handleSubmit}
-                className="bg-white p-8 rounded-lg shadow-md w-[400px]"
+      setLoading(true);
+
+
+
+      const { data } =
+        await API.post(
+          "/auth/login",
+          formData
+        );
+
+
+
+      login(data);
+
+
+
+      toast.success(
+        "Login Successful"
+      );
+
+
+
+      navigate("/");
+
+    } catch (error) {
+
+      toast.error(
+        error.response?.data?.message ||
+        "Something went wrong"
+      );
+
+    } finally {
+
+      setLoading(false);
+
+    }
+  };
+
+
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.3 }}
+      className="min-h-screen bg-gray-100 flex justify-center items-center p-6"
+    >
+
+      <motion.div
+        initial={{
+          y: -20,
+          opacity: 0,
+        }}
+        animate={{
+          y: 0,
+          opacity: 1,
+        }}
+        transition={{
+          duration: 0.4,
+        }}
+        className="bg-white w-full max-w-md rounded-xl shadow-md border border-gray-200 p-8"
+      >
+
+        {/* HEADING */}
+        <h1 className="text-3xl font-bold text-center mb-8">
+
+          Welcome{" "}
+
+          <span className="primary-gradient-text">
+            Back
+          </span>
+
+        </h1>
+
+
+
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-5"
+        >
+
+          {/* EMAIL */}
+          <div>
+
+            <label className="text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+
+              <FiMail className="text-purple-600" />
+
+              Email
+
+            </label>
+
+
+
+            <input
+              type="email"
+              name="email"
+              placeholder="Enter your email"
+              value={formData.email}
+              onChange={handleChange}
+              className="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+              required
+            />
+
+          </div>
+
+
+
+          {/* PASSWORD */}
+          <div>
+
+            <label className="text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+
+              <FiLock className="text-purple-600" />
+
+              Password
+
+            </label>
+
+
+
+            <input
+              type="password"
+              name="password"
+              placeholder="Enter your password"
+              value={formData.password}
+              onChange={handleChange}
+              className="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+              required
+            />
+
+          </div>
+
+
+
+          {/* SUBMIT */}
+          <motion.button
+            whileHover={{
+              scale: 1.02,
+            }}
+            whileTap={{
+              scale: 0.98,
+            }}
+            type="submit"
+            disabled={loading}
+            className="w-full primary-gradient text-white py-3 rounded-lg font-medium shadow-md disabled:opacity-50"
+          >
+
+            {loading
+              ? "Logging In..."
+              : "Login"}
+
+          </motion.button>
+
+
+
+          {/* REGISTER */}
+          <p className="text-center text-gray-600 text-sm">
+
+            Don&apos;t have an account?{" "}
+
+            <Link
+              to="/register"
+              className="text-purple-600 font-medium hover:underline"
             >
+              Register
+            </Link>
 
-                <h2 className="text-3xl font-bold mb-6 text-center">
-                    Login
-                </h2>
+          </p>
 
-                <input
-                    type="email"
-                    name="email"
-                    placeholder="Email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    className="w-full border p-3 rounded mb-4"
-                />
+        </form>
 
-                <input
-                    type="password"
-                    name="password"
-                    placeholder="Password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    className="w-full border p-3 rounded mb-4"
-                />
+      </motion.div>
 
-                <button
-                    type="submit"
-                    disabled={loading}
-                    className="w-full bg-black text-white py-3 rounded"
-                >
-                    {loading ? "Loading..." : "Login"}
-                </button>
-
-                <p className="mt-4 text-center">
-                    Don't have an account?{" "}
-
-                    <Link
-                        to="/register"
-                        className="text-blue-500"
-                    >
-                        Register
-                    </Link>
-                </p>
-
-            </form>
-        </div>
-    );
+    </motion.div>
+  );
 };
 
 export default Login;

@@ -187,9 +187,21 @@ const Navbar = () => {
               />
               <button
                 type="submit"
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-purple-600 transition-colors duration-200"
+                className="absolute right-3 top-1/2 -translate-y-1/2"
               >
-                <IoSearch className="text-lg" />
+                <svg width="0" height="0">
+                  <linearGradient id="searchGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#c026ff" />
+                    <stop offset="35%" stopColor="#8f00ff" />
+                    <stop offset="65%" stopColor="#5b00d6" />
+                    <stop offset="100%" stopColor="#3b0099" />
+                  </linearGradient>
+                </svg>
+
+                <IoSearch
+                  className="text-lg"
+                  style={{ fill: "url(#searchGradient)" }}
+                />
               </button>
             </form>
 
@@ -236,17 +248,6 @@ const Navbar = () => {
           </div>
 
           <div className="md:hidden flex items-center gap-3">
-            <motion.button
-              whileTap={{ scale: 0.95 }}
-              onClick={() => {
-                // Implement mobile search modal if needed
-                console.log("Mobile search clicked");
-              }}
-              className="text-gray-600 hover:text-purple-600 transition-colors"
-            >
-              <IoSearch className="text-xl" />
-            </motion.button>
-
             <motion.button
               whileTap={{ scale: 0.95 }}
               onClick={() => setIsMobileMenuOpen(true)}
@@ -351,33 +352,7 @@ const Navbar = () => {
                   </div>
                 )}
 
-                {/* Divider */}
                 <div className="border-t border-gray-100 my-2"></div>
-
-                {/* Additional Links */}
-                <div className="flex flex-col gap-3">
-                  <Link
-                    to="/"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className="text-gray-600 hover:text-purple-600 transition-colors py-2 text-sm"
-                  >
-                    Home
-                  </Link>
-                  <Link
-                    to="/companies"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className="text-gray-600 hover:text-purple-600 transition-colors py-2 text-sm"
-                  >
-                    Companies
-                  </Link>
-                  <Link
-                    to="/about"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className="text-gray-600 hover:text-purple-600 transition-colors py-2 text-sm"
-                  >
-                    About
-                  </Link>
-                </div>
               </div>
             </motion.div>
           </>

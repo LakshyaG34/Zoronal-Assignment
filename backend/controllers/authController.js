@@ -1,12 +1,13 @@
 import bcrypt from "bcryptjs";
 import User from "../models/User.js";
 import generateToken from "../utils/generateToken.js";
+import uploadToS3 from "../helper/uploadImage.js";
 
 // REGISTER
 export const registerUser = async (req, res) => {
   const startTime = Date.now();
   console.log(`[${new Date().toISOString()}] REGISTER - Request received`);
-  
+
   try {
     const { name, email, password } = req.body;
     console.log(`[${new Date().toISOString()}] REGISTER - Processing registration for email: ${email}`);
@@ -36,19 +37,36 @@ export const registerUser = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
     console.log(`[${new Date().toISOString()}] REGISTER - Password hashed successfully for: ${email}`);
 
+    let profilePicture = "";
+    if (req.file) {
+
+      profilePicture =
+        await uploadToS3(
+          req.file,
+          "profile-pictures"
+        );
+
+    }
+
     // create user
     console.log(`[${new Date().toISOString()}] REGISTER - Creating user in database: ${email}`);
     const user = await User.create({
+
       name,
+
       email,
+
       password: hashedPassword,
+
+      profilePicture,
+
     });
     console.log(`[${new Date().toISOString()}] REGISTER - User created successfully with ID: ${user._id}`);
 
     // generate token
     console.log(`[${new Date().toISOString()}] REGISTER - Generating JWT token for user: ${user._id}`);
     const token = generateToken(user._id);
-    
+
     const duration = Date.now() - startTime;
     console.log(`[${new Date().toISOString()}] REGISTER - Registration completed successfully for: ${email} (Duration: ${duration}ms)`);
 
@@ -58,13 +76,15 @@ export const registerUser = async (req, res) => {
       name: user.name,
       email: user.email,
       token: token,
+      profilePicture:
+        user.profilePicture,
     });
 
   } catch (error) {
     const duration = Date.now() - startTime;
     console.error(`[${new Date().toISOString()}] REGISTER - Error occurred: ${error.message} (Duration: ${duration}ms)`);
     console.error(`[${new Date().toISOString()}] REGISTER - Stack trace:`, error.stack);
-    
+
     res.status(500).json({
       message: error.message,
     });
@@ -75,7 +95,7 @@ export const registerUser = async (req, res) => {
 export const loginUser = async (req, res) => {
   const startTime = Date.now();
   console.log(`[${new Date().toISOString()}] LOGIN - Request received`);
-  
+
   try {
     const { email, password } = req.body;
     console.log(`[${new Date().toISOString()}] LOGIN - Processing login for email: ${email}`);
@@ -115,7 +135,7 @@ export const loginUser = async (req, res) => {
     // generate token
     console.log(`[${new Date().toISOString()}] LOGIN - Generating JWT token for user: ${user._id}`);
     const token = generateToken(user._id);
-    
+
     const duration = Date.now() - startTime;
     console.log(`[${new Date().toISOString()}] LOGIN - User logged in successfully: ${user._id} (Email: ${email}, Duration: ${duration}ms)`);
 
@@ -131,7 +151,7 @@ export const loginUser = async (req, res) => {
     const duration = Date.now() - startTime;
     console.error(`[${new Date().toISOString()}] LOGIN - Error occurred: ${error.message} (Duration: ${duration}ms)`);
     console.error(`[${new Date().toISOString()}] LOGIN - Stack trace:`, error.stack);
-    
+
     res.status(500).json({
       message: error.message,
     });

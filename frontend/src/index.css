@@ -28,4 +28,21 @@
     -webkit-text-fill-color: transparent;
   }
 
+  .primary-gradient-icon {
+    background: linear-gradient(
+      160deg,
+      #c026ff 0%,
+      #8f00ff 35%,
+      #5b00d6 65%,
+      #3b0099 100%
+    );
+
+    background-clip: text;
+    -webkit-background-clip: text;
+
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+  }
+
 }
