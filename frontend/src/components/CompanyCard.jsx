@@ -56,7 +56,7 @@ const CompanyCard = ({ company }) => {
         </div>
 
         {/* RIGHT SECTION */}
-        <div className="flex flex-row sm:flex-col items-center justify-between sm:items-end gap-3 sm:gap-4">
+        <div className="flex flex-row sm:flex-col items-center justify-between h-26 sm:items-end gap-3 sm:gap-4">
           {/* FOUNDED */}
           <p className="text-gray-400 text-xs sm:text-sm">
             Founded on {new Date(company.foundedOn).toLocaleDateString()}
@@ -65,7 +65,7 @@ const CompanyCard = ({ company }) => {
           {/* BUTTON */}
           <Link
             to={`/company/${company._id}`}
-            className="bg-black text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg hover:bg-gray-800 transition text-sm sm:text-base text-center whitespace-nowrap"
+            className="bg-black text-white px-4 sm:px-4 py-2 sm:py-2 rounded-md hover:bg-gray-800 transition text-sm sm:text-base text-center whitespace-nowrap"
           >
             Detail Review
           </Link>
