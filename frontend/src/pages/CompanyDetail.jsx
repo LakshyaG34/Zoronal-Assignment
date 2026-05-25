@@ -16,6 +16,7 @@ import {
   FaFileAlt,
   FaTimes,
   FaPen,
+  FaPlus,
   FaStar,
 } from "react-icons/fa";
 import {
@@ -131,26 +132,20 @@ const CompanyDetails = () => {
       <div className="w-full max-w-7xl mx-auto bg-white rounded-3xl shadow-md border border-gray-100 overflow-hidden">
         <div className="p-8 md:p-10">
           <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-8">
-            <div className="flex gap-6">
+            <div className="flex flex-col md:flex-row gap-6">
               <img
                 src={
                   company.logo ||
                   "https://via.placeholder.com/120"
                 }
                 alt={company.name}
-                className="w-28 h-28 rounded-2xl object-cover border border-gray-100"
+                className="w-36 h-36 rounded-md object-cover border border-gray-100"
               />
-
               <div>
-
-                <h1 className="text-4xl font-bold text-gray-900 mb-2">
+                <h1 className="text-4xl font-bold text-gray-900">
                   {company.name}
                 </h1>
-
-
-
-                <p className="flex items-center gap-2 text-gray-500 mb-4">
-
+                <p className="flex items-center gap-2 text-gray-500 mt-1">
                   <HiLocationMarker className="text-purple-500" />
                   {company.location}
                 </p>
@@ -159,7 +154,7 @@ const CompanyDetails = () => {
                   {company.description}
                 </p>
 
-                <div className="flex items-center gap-8 flex-wrap">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-8">
 
                   <div className="flex items-center gap-3 whitespace-nowrap">
 
@@ -184,26 +179,19 @@ const CompanyDetails = () => {
                         }}
                       />
                     </div>
-
                   </div>
-
                   <div className="flex items-center gap-2 text-gray-500">
 
                     <FaFileAlt className="text-purple-500" />
-
                     <span>
                       {company.totalReviews} Reviews
                     </span>
-
                   </div>
-
                 </div>
-
               </div>
-
             </div>
 
-            <div className="flex flex-col items-end gap-6">
+            <div className="flex flex-col justify-between gap-6 h-[150px]">
 
               <p className="text-gray-400 text-sm border border-gray-200 rounded-full px-4 py-2">
 
@@ -219,14 +207,10 @@ const CompanyDetails = () => {
                     year: "numeric",
                   }
                 )}
-
               </p>
-
               <button
-                onClick={
-                  handleAddReviewClick
-                }
-                className="primary-gradient text-white px-8 py-3 rounded-xl font-semibold flex items-center gap-3"
+                onClick={handleAddReviewClick}
+                className="primary-gradient text-white px-4 py-2 rounded-md font-semibold flex items-center justify-center gap-2 w-full"
               >
                 {showReviewForm ? (
                   <>
@@ -235,17 +219,13 @@ const CompanyDetails = () => {
                   </>
                 ) : (
                   <>
-                    <FaPen />
-                    + Add Review
+                    <FaPlus />
+                    Add Review
                   </>
                 )}
-
               </button>
-
             </div>
-
           </div>
-
         </div>
 
         <div className="border-t border-gray-200" />
@@ -268,7 +248,7 @@ const CompanyDetails = () => {
           )}
 
         </AnimatePresence>
-        
+
         <div className="px-8 md:px-10 py-10">
 
           <ReviewsList
