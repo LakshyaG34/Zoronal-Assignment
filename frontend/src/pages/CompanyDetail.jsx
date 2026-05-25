@@ -101,13 +101,10 @@ const CompanyDetails = () => {
   };
 
   const handleAddReviewClick = () => {
-
     if (!user) {
-
       navigate("/login");
       return;
     }
-
     setShowReviewForm(
       (prev) => !prev
     );

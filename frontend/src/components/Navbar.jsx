@@ -161,7 +161,7 @@ const Navbar = () => {
               whileTap={{ scale: 0.95 }}
               className="w-9 h-9 sm:w-11 sm:h-11 rounded-full primary-gradient flex items-center justify-center shadow-md"
             >
-              <FaStar className="text-white text-sm sm:text-base" />
+              <FaStar className="text-white text-sm sm:text-3xl" />
             </motion.div>
 
             {/* TEXT */}
