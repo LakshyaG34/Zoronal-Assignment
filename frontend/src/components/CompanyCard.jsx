@@ -26,7 +26,7 @@ const CompanyCard = ({ company }) => {
 
             {/* LOCATION */}
             <p className="text-gray-500 text-sm sm:text-base mb-2 sm:mb-3">
-              📍 {company.location}
+              📍 {company.location}, {company.city}
             </p>
 
             {/* RATING */}

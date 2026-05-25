@@ -147,7 +147,7 @@ const CompanyDetails = () => {
                 </h1>
                 <p className="flex items-center gap-2 text-gray-500 mt-1">
                   <HiLocationMarker className="text-purple-500" />
-                  {company.location}
+                  {company.location}, {company.city}
                 </p>
 
                 <p className="text-gray-500 max-w-3xl leading-relaxed mb-6">

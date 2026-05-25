@@ -201,7 +201,7 @@ export const getCompanyReviews = async (req, res) => {
 
     const [reviews, totalReviews] = await Promise.all([
       Review.find({ company: companyId })
-        .populate("user", "name email")
+        .populate("user", "name email profilePicture")
         .sort(sortOption)
         .skip(skip)
         .limit(limit),

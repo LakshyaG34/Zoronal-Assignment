@@ -49,8 +49,8 @@ const ReviewsList = ({
             if (navigator.share) {
 
                 await navigator.share({
-                    title: "Company Review",
-                    text: shareText,
+                    // title: "Company Review",
+                    // text: shareText,
                     url: shareUrl,
                 });
 
