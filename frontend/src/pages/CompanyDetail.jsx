@@ -126,7 +126,10 @@ const CompanyDetails = () => {
       animate={{ opacity: 1 }}
       className="min-h-screen bg-gray-100 p-6 md:p-10"
     >
-      <div className="w-full max-w-7xl mx-auto bg-white rounded-3xl shadow-md border border-gray-100 overflow-hidden">
+      <div className="w-full max-w-7xl mx-auto mb-8 mt-20">
+        <div className="h-[1px] bg-gray-300" />
+      </div>
+      <div className="w-full max-w-6xl mx-auto bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden">
         <div className="p-8 md:p-10">
           <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-8">
             <div className="flex flex-col md:flex-row gap-6">

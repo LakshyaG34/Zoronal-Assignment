@@ -376,3 +376,39 @@ export const likeReview = async (req, res) => {
     });
   }
 };
+
+export const getSingleReview = async (
+  req,
+  res
+) => {
+
+  try {
+
+    const review =
+      await Review.findById(
+        req.params.reviewId
+      )
+        .populate("company")
+        .populate(
+          "user",
+          "name profilePicture"
+        );
+
+    if (!review) {
+      return res.status(404).json({
+        message: "Review not found",
+      });
+    }
+
+    res.status(200).json({
+      review,
+    });
+
+  } catch (error) {
+
+    res.status(500).json({
+      message: error.message,
+    });
+
+  }
+};

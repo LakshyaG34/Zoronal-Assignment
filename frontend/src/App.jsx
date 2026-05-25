@@ -27,6 +27,9 @@ const CompanyDetail = lazy(() =>
 const AddCompany = lazy(() =>
   import("./components/AddCompany")
 );
+const SingleReview = lazy(() =>
+  import("./pages/SingleReview")
+);
 
 
 function App() {
@@ -60,6 +63,11 @@ function App() {
               path="/register"
               element={<Register />}
             />
+
+            {/* <Route
+              path="/review/:reviewId"
+              element={<SingleReview />}
+            /> */}
           </Route>
 
           {/* WEBSITE LAYOUT */}
@@ -76,6 +84,11 @@ function App() {
                 <CompanyDetail />
               }
             />
+            <Route
+              path="/review/:reviewId"
+              element={<SingleReview />}
+            />
+
           </Route>
 
           {/* PROTECTED ROUTES */}

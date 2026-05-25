@@ -94,6 +94,7 @@ const AddCompany = () => {
       transition={{ duration: 0.3 }}
       className="min-h-screen bg-gray-100 flex justify-center items-center p-6"
     >
+
       <motion.div
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
